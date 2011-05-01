@@ -129,13 +129,13 @@ int main (void)
 #ifdef SBX
 	uart_regs * uart2 = (uart_regs *)DEBUG_UART_BASE_ADDR;
 #endif
+	uint32_t ReadData = 0;
 
 #ifdef SIM_COMPILATION
 	SetAnalog Analog[2];
 	
 //	uint32_t i = 0;
 //	uint32_t Prefetch = 64;
-	uint32_t ReadData = 0;
 //	char x = 0;
 
 //	char ack[] = "success!\n";
@@ -302,7 +302,45 @@ int main (void)
 
 #ifdef W2000A
 #ifdef BOARD_COMPILATION
-	WaitMs(100);
+
+	/* Test routine for SRAM write accesses */
+	WRITE_INT(CONFIGADCENABLE,0); /* selecting the generic uart for the W2000A */
+	ReadData = 0;
+	while (ReadData == 0) { // no timeout error
+		Data[0].c[0] = ReceiveChar(uart,1000,&ReadData);
+	}
+	DrawTest(); // clear cache
+	SendStringBlock(uart,"Send back any letter to begin the test:\n");
+	Data[0].c[0] = ReceiveCharBlock(uart);
+	SendStringBlock(uart,"Test routine for 4 byte write access: MSB..LSB = 0000\n");
+	Data[0].i = 0x30303030;
+	SendCharBlock(uart,Data[0].c[0]);
+	SendCharBlock(uart,Data[0].c[1]);
+	SendCharBlock(uart,Data[0].c[2]);
+	SendCharBlock(uart,Data[0].c[3]);
+	DrawTest(); // clear cache
+	SendStringBlock(uart,"\nTest routine for 2 byte write access: MSB..LSB = 1122\n");
+	Data[0].s[0] = 0x3131;
+	Data[0].s[1] = 0x3232;
+	SendCharBlock(uart,Data[0].c[0]);
+	SendCharBlock(uart,Data[0].c[1]);
+	SendCharBlock(uart,Data[0].c[2]);
+	SendCharBlock(uart,Data[0].c[3]);
+	DrawTest(); // clear cache
+	SendStringBlock(uart,"\nTest routine for 1 byte write access: MSB..LSB = 3456\n");
+	Data[0].c[0] = 0x33;
+	Data[0].c[1] = 0x34;
+	Data[0].c[2] = 0x35;
+	Data[0].c[3] = 0x36;
+	SendCharBlock(uart,Data[0].c[0]);
+	SendCharBlock(uart,Data[0].c[1]);
+	SendCharBlock(uart,Data[0].c[2]);
+	SendCharBlock(uart,Data[0].c[3]);
+
+	rprintf("\nrprintf test 1234567 = %d\n",1234567);
+	WaitMs(1000);
+
+	WRITE_INT(CONFIGADCENABLE,1); /* selecting the debug uart for the W2000A */
 //	printf("\nStartFrontPanelTest\n");
 //	FrontPanelTest(uart);
 //	printf("\nSignalTest\n");

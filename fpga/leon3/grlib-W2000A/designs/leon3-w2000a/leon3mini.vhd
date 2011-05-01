@@ -426,13 +426,13 @@ begin
 
 --  pPWM : entity DSO.PWM
 --    generic map (
---      gBitWidth => aByte'length)
+--	gBitWidth => aByte'length)
 --    port map (
---      iClk	  => ClkCPU,
---      iResetAsync => ResetAsync,
---      iRefON	  => SFRControlfromCPU.AnalogSettings.PWM_Offset,
---      iRefOff	  => (others => '0'),
---      oPWM	  => oPWMout);
+--	iClk	  => ClkCPU,
+--	iResetAsync => ResetAsync,
+--	iRefON	  => SFRControlfromCPU.AnalogSettings.PWM_Offset,
+--	iRefOff	  => (others => '0'),
+--	oPWM	  => oPWMout);
 
 
   -- pragma translate_off
@@ -630,7 +630,11 @@ begin
       oncsRAM  => oCE_SRAM,
       onoeRAM  => oOE_SRAM,
       onwrRAM  => oWE_SRAM,
-
+      onbeRAM  => open,
+      -- onbeRAM(0) =>oLB1_SRAM,
+      -- onbeRAM(1) =>oUB1_SRAM,
+      -- onbeRAM(2) =>oLB2_SRAM,
+      -- onbeRAM(3) =>oUB2_SRAM,
       bDataROM => bD_FLASH,
       oncsROM  => BootCS,
       onoeROM  => BootOE,

@@ -951,4 +951,5 @@ set_instance_assignment -name CURRENT_STRENGTH_NEW 24MA -to oA_SRAM[17]
 set_instance_assignment -name CURRENT_STRENGTH_NEW 24MA -to oA_SRAM[18]
 
 set_global_assignment -name CDF_FILE ../../../welec/gitrepo/fpga/leon3/Scope/synW2000A/Chain1.cdf
+set_global_assignment -name CDF_FILE Chain1.cdf
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

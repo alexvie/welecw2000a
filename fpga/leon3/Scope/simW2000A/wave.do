@@ -163,10 +163,18 @@ add wave -noupdate -format Literal /testbench/d3/mg2/ahbso.hrdata
 add wave -noupdate -format Literal -radix hexadecimal /testbench/d3/oa_sram
 add wave -noupdate -format Literal -radix hexadecimal /testbench/d3/bd_sram
 add wave -noupdate -format Logic /testbench/d3/oce_sram
-add wave -noupdate -format Logic /testbench/d3/owe_sram
-add wave -noupdate -format Logic /testbench/d3/ooe_sram
 add wave -noupdate -format Logic /testbench/d3/mg2/oncsram
-add wave -noupdate -format Literal /testbench/d3/mg2/p0
+add wave -noupdate -format Logic /testbench/d3/ooe_sram
+add wave -noupdate -format Logic /testbench/d3/owe_sram
+add wave -noupdate -format Logic /testbench/d3/oub2_sram
+add wave -noupdate -format Logic /testbench/d3/olb2_sram
+add wave -noupdate -format Logic /testbench/d3/oub1_sram
+add wave -noupdate -format Logic /testbench/d3/olb1_sram
+add wave -noupdate -format Logic /testbench/d3/mg2/p0.addr(1)
+add wave -noupdate -format Logic /testbench/d3/mg2/p0.addr(0)
+add wave -noupdate -format Logic /testbench/d3/mg2/p0.size(1)
+add wave -noupdate -format Logic /testbench/d3/mg2/p0.size(0)
+add wave -noupdate -format Literal -expand /testbench/d3/mg2/p0
 add wave -noupdate -format Logic /testbench/d3/mg2/onoeram
 add wave -noupdate -format Logic /testbench/d3/mg2/onwrram
 add wave -noupdate -format Literal /testbench/d3/mg2/bdataram
@@ -987,7 +995,7 @@ add wave -noupdate -format Literal /testbench/ch1_regh/oq
 add wave -noupdate -format Literal -expand /testbench/ch1_regh/reg
 add wave -noupdate -format Literal /testbench/ch1_regh/shift
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {751431000 ps} 0} {{Cursor 2} {314522003 ps} 0} {{Cursor 3} {692295000 ps} 0} {{Cursor 4} {615327000 ps} 0}
+WaveRestoreCursors {{Cursor 1} {751431000 ps} 0} {{Cursor 2} {36015745 ps} 0} {{Cursor 3} {692295000 ps} 0} {{Cursor 4} {615327000 ps} 0}
 configure wave -namecolwidth 374
 configure wave -valuecolwidth 180
 configure wave -justifyvalue left
@@ -1002,4 +1010,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {0 ps} {739461305 ps}
+WaveRestoreZoom {34573992 ps} {37344008 ps}

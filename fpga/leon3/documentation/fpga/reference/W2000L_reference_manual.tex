@@ -1,0 +1,106 @@
+
+\documentclass[11pt,ngerman,american,a4paper,dvipdfm]{paper}
+% article style
+%   - 11pt Schriftgroesse
+%   - new austrian (neue Rechtschreibung)
+%   - Papierformat A4
+%   - pdf-hyperlinks
+%   - separate Titelseite (ohne Seitennummer) kann durch 'titlepage' erreicht werden
+
+% Packages
+% --------
+\usepackage[ansinew]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{a4}
+
+%verschiedene Schriftarten
+%-------------------------
+\usepackage{palatino}
+
+\usepackage{babel}
+\usepackage[pdftex]{graphicx,color} % for PDF
+%\usepackage[dvips]{graphicx,color} % for DVI (standard)
+%\usepackage{graphics}
+%\input{rgb}						% some colors
+\usepackage{framed}     
+\usepackage{fancyhdr}   
+\usepackage{listings}   
+\usepackage{verbatim}   
+\usepackage{enumerate}  
+\usepackage{caption}		
+
+% Seitenspiegel
+% -------------
+\setlength{\textwidth}{17cm}				
+\setlength{\textheight}{24cm}				
+\setlength{\topmargin}{-15mm}				
+\setlength{\oddsidemargin}{-5mm}		
+\setlength{\evensidemargin}{-5mm}	
+\pagestyle{fancy}
+
+% Kopfzeile
+% ---------
+\lhead{{\footnotesize{Alexander Lindert}}} \chead{{\footnotesize{W2000L Oscilloscope Reference Manual}}}
+
+\rhead{{\footnotesize{\today}}}
+\setlength{\headheight}{24.5pt}
+\setlength{\headsep}{5mm}
+% Fusszeile
+% ---------
+\lfoot{}
+\cfoot{\footnotesize{Seite \thepage}}
+\rfoot{}        
+%\setlength{\footrulewidth}{0.4pt}            % Linie �ber der Fusszeile
+
+% ---------------
+\usepackage{setspace}   
+\singlespace           
+%\onehalfspace         
+%\doublespace          
+
+% Beginn des Dokumentes
+% ---------------------
+\begin{document}
+
+\selectlanguage{ngerman}
+
+% for plain text files 
+%\newcommand{\txtinput}[1]{
+%		\footnotesize
+%		\verbatiminput{#1}
+%		\normalsize		
+%		}
+
+  \lstset{
+    basicstyle=\ttfamily\scriptsize,
+    numbers=left,
+    frame=single,
+    tabsize=4,
+    extendedchars=true,
+    %backgroundcolor=\color{grey},
+		keywordstyle=\color{blue},
+		%identifierstyle=, 								% nothing happens
+		commentstyle=\color{CommentGreen}, 
+		stringstyle=\color{red}, 				
+		showstringspaces=false, 					% no special string spaces
+    language=matlab
+  } 
+  \definecolor{CommentGreen}{rgb}{0,0.78,0.2}
+
+%\includegraphics[width=0.70\textwidth]{expl-mc.jpg}
+%\lstinputlisting[caption=VHDL-Code]{../src/BMC.vhd}
+%\lstinputlisting[caption=PSL-Assertions in V-Unit]{../src/BMC.psl}
+%\lstinputlisting[caption=Schaltung in SMV]{../src/BMC.smv}
+%\lstinputlisting[language=Clean,caption=NuSMV Ausgabe (Auszug)]{smv-output.txt}
+%\lstinputlisting [breaklines=true, caption=\lstname,captionpos=b]{../ue02.m}
+%\includegraphics[width=0.6\textwidth]{../strecke.pdf}
+
+\section {Preface}
+This document does describe the open source oscilloscope specific periphials implemented in the FPGA of the Welec W2000A series oscilloscopes.
+As CPU the FPGA design does use the open source LEON3 SparcV8 processor from \href{www.gaisler.com}.
+All parts from \href{www.gaisler.com} are not documented here. If you need information of these parts read the grip.pdf and the Sparcv8.pdf reference manuals.
+\subsection{GPL}
+ 
+\section{Clock domain solution}
+
+\end{document}

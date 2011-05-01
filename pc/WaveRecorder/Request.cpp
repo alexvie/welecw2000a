@@ -204,7 +204,8 @@ void Request::make_bmp(const char *filename)
 	sBMP_info_header infoheader;
 
 	fileheader.bfType = 0x4D42;
-	fileheader.bfSize = sizeof(fileheader);
+//	fileheader.bfSize = sizeof(fileheader); does only work under windows
+	fileheader.bfSize = 921654; // TODO: does only work for this colored 640x480 size 
 	fileheader.bfReserved1 = 0;
 	fileheader.bfReserved2 = 0;
 	fileheader.bfOffBits =  sizeof(fileheader)+sizeof(infoheader);

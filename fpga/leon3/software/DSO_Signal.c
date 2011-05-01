@@ -46,7 +46,7 @@
 #define BG_COLOR COLOR_R3G3B3(0,0,0)
 #define PREFETCH_OFFSET 32
 
-
+#ifdef BOARD_COMPILATION
 void DrawSignal(
 		uint32_t Voffset,
 		uSample * PrevData,
@@ -124,6 +124,7 @@ void DrawSample(uint16_t ColorBack, uint16_t ColorSignal, uint32_t v, SampleRet 
 	ClearVLineClipped(ColorBack,v,pl,ph);
 	DrawVLineClipped(ColorSignal,v,cl,ch);
 }
+#endif
 #endif
 
 int32_t Sum(

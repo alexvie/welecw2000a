@@ -4,7 +4,7 @@
 -- File	      : FastSRAMctrl-ea.vhd
 -- Author     : Alexander Lindert <alexander_lindert at gmx.at> 
 -- Created    : 2010-02-07
--- Last update: 2010-03-21
+-- Last update: 2011-05-01
 -- Platform   : Welec W2000A
 -------------------------------------------------------------------------------
 -- Description: This is the fastest possible external rom and ram access for
@@ -74,11 +74,12 @@ entity FastSRAMctrl is
 
     bDataRAM		      : inout std_logic_vector(31 downto 0);
     oncsRAM, onoeRAM, onwrRAM : out   std_ulogic;
+    onbeRAM		      : out   std_ulogic_vector(3 downto 0);
 
     bDataROM		      : inout std_logic_vector(7 downto 0);
     oncsROM, onoeROM, onwrROM : out   std_ulogic
     );
-end;
+end entity;
 
 architecture rtl of FastSRAMctrl is
 
@@ -175,6 +176,8 @@ begin
     p0i.hcache <= not ahbsi.hmbsel(2);
     p0i.wr     <= '1';
     p0i.oen    <= '1';
+    onbeRAM    <= "1111";
+
     --	rmw	       <= '1';
 
     ahbso.hready  <= p0.hready;
@@ -194,27 +197,35 @@ begin
     end if;
 
     if p0.wr = '0' then
+      bDataRAM <= ahbsi.hwdata;
       case p0.size is
 	when "000" =>
 	  case p0.addr(1 downto 0) is
 	    when "00" =>
-	      bDataRAM <= p0.data(31 downto 8) & ahbsi.hwdata(7 downto 0);
+	      onbeRAM(3) <= '0';
+	      bDataRAM	 <= ahbsi.hwdata(31 downto 24) & p0.data(23 downto 0);
 	    when "01" =>
-	      bDataRAM <= p0.data(31 downto 16) & ahbsi.hwdata(15 downto 8) & p0.data(7 downto 0);
+	      onbeRAM(2) <= '0';
+	      bDataRAM	 <= p0.data(31 downto 24) & ahbsi.hwdata(23 downto 16) & p0.data(15 downto 0);
 	    when "10" =>
-	      bDataRAM <= p0.data(31 downto 24) & ahbsi.hwdata(23 downto 16) & p0.data(15 downto 0);
+	      onbeRAM(1) <= '0';
+	      bDataRAM	 <= p0.data(31 downto 16) & ahbsi.hwdata(15 downto 8) & p0.data(7 downto 0);
 	    when "11" =>
-	      bDataRAM <= ahbsi.hwdata(31 downto 24) & p0.data(23 downto 0);
+	      onbeRAM(0) <= '0';
+	      bDataRAM	 <= p0.data(31 downto 8) & ahbsi.hwdata(7 downto 0);
 	    when others =>
 	      null;
 	  end case;
 	when "001" =>
-	  if ahbsi.haddr(1) = '0' then
-	    bDataRAM <= p0.data(31 downto 16) & ahbsi.hwdata(15 downto 0);
-	  else
+	  if p0.addr(1) = '0' then
+	    onbeRAM(3 downto 2) <= "00";
 	    bDataRAM <= ahbsi.hwdata(31 downto 16) & p0.data(15 downto 0);
+	    else
+	    onbeRAM(1 downto 0) <= "00";
+	    bDataRAM <= p0.data(31 downto 16) & ahbsi.hwdata(15 downto 0);
 	  end if;
 	when others =>
+	  onbeRAM(3 downto 0) <= "0000";
 	  bDataRAM <= ahbsi.hwdata;
       end case;
     end if;
@@ -232,23 +243,15 @@ begin
 	      p0i.size <= std_ulogic_vector(ahbsi.hsize);
 	      if ahbsi.hwrite = '1' then
 		if ahbsi.hsize(2 downto 1) = "00" then
-	--	  if prev_wr = '0' then
-		    p0i.hready <= '0';
-		    p0i.state  <= rmw0;
-	--	  else
-	--	    p0i.hready <= '0';
-	--	    p0i.state  <= rmw1;
-	--	    p0i.oen    <= '0';
-	--	  end if;
-		else
-	--	  if prev_oen = '0' then
-		    p0i.hready <= '0';
-		    p0i.state  <= writing;
-	--	  else
-	--	    p0i.wr    <= '0';
-	--	    p0i.state <= idle;
-	--	  end if;
 
+		  	  p0i.hready <= '0';
+		  	  p0i.state  <= rmw0;
+
+		  	else
+		  
+		  p0i.hready <= '0';
+		  p0i.state  <= writing;
+		  
 		end if;
 	      else
 		if prev_wr = '0' then
@@ -287,11 +290,11 @@ begin
 	  p0i.State  <= rmw2;
 	  p0i.hready <= '0';
 	when rmw2 =>
-	  p0i.wr    <= '0';
+	  p0i.wr <= '0';
 	when reading =>
-	  p0i.oen   <= '0';
+	  p0i.oen <= '0';
 	when writing =>
-	  p0i.wr    <= '0';
+	  p0i.wr <= '0';
 	when others =>
 	  null;
       end case;
